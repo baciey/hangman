@@ -1,0 +1,81 @@
+body 
+  margin: 0
+  font-family: arial
+  text-align: center
+
+
+  
+.hangmanContainer 
+  display: flex
+  flex-direction: column
+  align-items: center
+  background-color: #7883e3
+  height: 100vh
+  .password 
+    font-family: monospace
+  h1 
+    text-transform: uppercase
+  .board 
+    position: relative
+    display: flex
+    justify-content: center
+    flex-wrap: wrap
+    max-width: 370px
+    .letter 
+      background-color: grey
+      border: 1px solid grey
+      color: whitesmoke
+      flex-basis: calc(14vw - 12px)
+      height: calc(14vw - 12px)
+      max-width: 35px
+      max-height: 35px
+      margin: 5px
+      text-transform: uppercase
+      font-weight: bold
+      border-radius: 15%
+      display: flex
+      flex-direction: column
+      justify-content: center
+      cursor: pointer
+    .letter.true 
+      background-color: green
+      border: 1px solid white
+    .letter.false 
+      background-color: red
+      border: 1px solid white
+    .shield 
+      position: absolute
+      top: 0
+      left: 0
+      background-color: transparent
+      width: 100%
+      height: 100%
+
+  .imgContainer img 
+    width: 100%
+    max-width: 355px
+    border-radius: 5%
+  .win 
+    color: green
+  .loose 
+    color: red
+
+
+
+
+
+
+@media (min-width: 740px) 
+  .hangmanContainer
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: center
+    align-content: flex-start    
+    .password 
+      flex-basis: 100%
+    .board 
+      margin-top: 100px
+      .letter 
+        max-width: 40px
+        max-height: 40px
+    
