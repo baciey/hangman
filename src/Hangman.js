@@ -16,6 +16,7 @@ class Hangman extends React.Component {
 
   state = {
     letters: [],
+    classes: Array(35).fill(''),
     win: false,
     loose: false,
     passwordHidden: '',
@@ -40,50 +41,62 @@ class Hangman extends React.Component {
     }
     this.setState({ passwordHidden: pass.split("") })
   }
-  clickHandle = (e) => {
+  clickHandle = (i, letter) => {
+    if (this.state.classes[i]) return;
     let passwordHidden = [...this.state.passwordHidden]
-    const letter = e.target.textContent;
     let index = this.password2.indexOf(letter)
+    const classes = [...this.state.classes]
     if (index === -1) {
-      e.target.classList.add('false');
       this.missCounter++;
-      this.setState({});
+      classes[i] = 'false';
+      this.setState({
+        classes,
+      });
       if (this.missCounter === 6) this.setState({ loose: true })
     }
     while (index !== -1) {
-      e.target.classList.add('true');
       passwordHidden[index] = letter
-      this.setState({ passwordHidden })
+      classes[i] = 'true';
+      this.setState({
+        passwordHidden,
+        classes,
+      })
       index = this.password2.indexOf(letter, index + 1);
     }
     if (this.password2.toString() === passwordHidden.toString()) {
       this.setState({ win: true })
     }
   }
-  createLetters = () => {
-    let letters = [];
-    for (let i = 0; i < this.letters.length; i++) {
-      letters.push(
-        <div className="letter"
-          onClick={this.clickHandle}
-          key={this.letters[i]}
-          id={'letter' + [i]}>
-          {this.letters[i]}
-        </div>)
-    }
-    this.setState({ letters })
-  }
 
   componentDidMount() {
-    this.createLetters();
     this.hidePassword();
   }
+
+
+  renderLetter = (i) => {
+    return (
+      <div className={"letter " + this.state.classes[i]}
+        onClick={() => this.clickHandle(i, this.letters[i])}
+        key={this.letters[i]}
+        id={'letter' + [i]}>
+        {this.letters[i]}
+      </div>
+    )
+  }
+
   render() {
-    const { win, loose, letters, passwordHidden } = this.state
+    const { win, loose, passwordHidden } = this.state
     let classes = '';
     if (win) classes = 'win'
     if (loose) classes = 'loose'
 
+
+    const letters = [];
+    for (let i = 0; i < 35; i++) {
+      letters.push(this.renderLetter(i)
+      )
+
+    }
     return (
       <div className="hangmanContainer">
         <div className="password">
